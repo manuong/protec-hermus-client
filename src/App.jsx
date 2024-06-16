@@ -1,5 +1,11 @@
+import LoginPage from './pages/LoginPage';
+
 function App() {
-  return <h1>new project</h1>;
+  return (
+    <>
+      <LoginPage />
+    </>
+  );
 }
 
 export default App;
