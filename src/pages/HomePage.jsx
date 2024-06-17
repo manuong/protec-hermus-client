@@ -1,9 +1,18 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TaskTable from '../components/TaskTable';
 import Header from '../components/Header';
+import { useEffect } from 'react';
+import { userSave } from '../redux/actions';
+import localStorageService from '../services/localStorageService';
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(userSave(localStorageService.getUser()));
+  }, [dispatch]);
 
   return (
     <div>

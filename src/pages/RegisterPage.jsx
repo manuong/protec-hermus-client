@@ -1,25 +1,23 @@
 import { useForm } from 'react-hook-form';
 import useAuth from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
-import PATH_ROUTES from '../constants/pathRoutes';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors: formErrors },
   } = useForm();
 
-  const { handleLogin, authErrors, loading } = useAuth();
+  const { handleSingup, authErrors } = useAuth();
 
   const onSubmit = handleSubmit((values) => {
-    handleLogin(values);
+    handleSingup(values);
   });
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <form onSubmit={onSubmit} className="flex flex-col items-center">
-        <h2 className="text-4xl mb-10">Inicio de Sesión</h2>
+        <h2 className="text-4xl mb-10">Regístrate</h2>
 
         {authErrors.map((error, i) => {
           return (
@@ -30,6 +28,15 @@ const LoginPage = () => {
         })}
 
         <div className="flex flex-col">
+          <input
+            type="text"
+            placeholder="Nombre"
+            {...register('name', { required: true })}
+            className="text-black mt-5 w-96 h-12 px-2 rounded-md"
+          />
+
+          <span className="text-red-600 h-6 mt-2">{formErrors.name && 'El nombre es requerido'}</span>
+
           <input
             type="text"
             placeholder="Nombre de usuario"
@@ -51,23 +58,38 @@ const LoginPage = () => {
           <span className="text-red-600 h-6 mt-2">
             {formErrors.password && 'La contraseña es requerida'}
           </span>
+
+          <div className="px-3">
+            <label className="text-2xl">
+              <input
+                type="radio"
+                value={'técnico'}
+                {...register('typeOfUser', { required: true })}
+                className="mr-2"
+              />
+              técnico
+            </label>
+
+            <label className="text-2xl ml-6">
+              <input
+                type="radio"
+                value={'área'}
+                {...register('typeOfUser', { required: true })}
+                className="mr-2"
+              />
+              área
+            </label>
+          </div>
+
+          <span className="text-red-600 h-6 mt-2">
+            {formErrors.typeOfUser && 'El tipo de usuario es requerido'}
+          </span>
         </div>
 
-        <p className="text-center">
-          ¿Registrar nuevo usuario?{' '}
-          <Link
-            to={PATH_ROUTES.REGISTER}
-            className="text-sky-700 font-bold border-b-2 border-transparent hover:border-sky-700"
-          >
-            Aqui
-          </Link>
-        </p>
-
-        <button className="bg-sky-800 w-28 h-10 mt-9 duration-200 hover:rounded-xl">Iniciar</button>
-        <span className="mt-5">{loading && 'Cargando...'}</span>
+        <button className="bg-sky-800 w-28 h-10 mt-10 duration-200 hover:rounded-xl">Registrar</button>
       </form>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

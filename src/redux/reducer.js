@@ -1,20 +1,16 @@
-// import ACTION_TYPES from './actionTypes';
-
-import parseJsonToObject from '../helpers/parseJsonToObject';
-
-const userJSON = window.localStorage.getItem('loggedUser');
+import ACTION_TYPES from './actionTypes';
 
 const initialState = {
-  user: parseJsonToObject(userJSON),
+  user: {},
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    // case ACTION_TYPES.USER_SAVE:
-    //   return {
-    //     ...state,
-    //     user: payload,
-    //   };
+    case ACTION_TYPES.USER_SAVE:
+      return {
+        ...state,
+        user: payload,
+      };
 
     default:
       return {

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import authService from '../api/auth.api.js';
+import authService from '../services/authService.js';
 import { useNavigate } from 'react-router-dom';
 import PATH_ROUTES from '../constants/pathRoutes.js';
 
 const useAuth = () => {
   const [authErrors, setAuthErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -21,15 +22,18 @@ const useAuth = () => {
   }, [authErrors]);
 
   const handleLogin = (payload) => {
+    setLoading(true);
     authService
       .loginRequest(payload)
       .then(({ data }) => {
         window.localStorage.setItem('loggedUser', JSON.stringify(data.user));
         window.localStorage.setItem('token', data.token);
 
+        setLoading(false);
         navigate(PATH_ROUTES.HOME);
       })
       .catch((error) => {
+        setLoading(false);
         if (!error.response) setAuthErrors(['Network Error']);
         setAuthErrors(error.response.data.error);
       });
@@ -38,12 +42,31 @@ const useAuth = () => {
   const handleLogout = () => {
     window.localStorage.clear();
     navigate(PATH_ROUTES.LOGIN);
+    setLoading(false);
+  };
+
+  const handleSingup = (payload) => {
+    setLoading(true);
+    authService
+      .singupRequest(payload)
+      .then(({ data }) => {
+        setLoading(false);
+        window.alert(data.message);
+        navigate(PATH_ROUTES.LOGIN);
+      })
+      .catch((error) => {
+        setLoading(false);
+        if (!error.response) setAuthErrors(['Network Error']);
+        setAuthErrors(error.response.data.error);
+      });
   };
 
   return {
     handleLogin,
     handleLogout,
+    handleSingup,
     authErrors,
+    loading,
   };
 };
 

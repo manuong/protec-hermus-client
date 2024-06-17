@@ -1,5 +1,6 @@
 const PATH_ROUTES = {
   LOGIN: '/login',
+  REGISTER: '/register',
   HOME: '/home',
 };
 
