@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import authService from '../api/auth.api.js';
+import { useNavigate } from 'react-router-dom';
 
 const useAuth = () => {
   const [authErrors, setAuthErrors] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // este setTimeout es para cerrar las alertas de los errores despues de un tiempo
@@ -22,6 +25,8 @@ const useAuth = () => {
       .then(({ data }) => {
         window.localStorage.setItem('loggedUser', JSON.stringify(data.user));
         window.localStorage.setItem('token', data.token);
+
+        navigate('/home');
       })
       .catch((error) => {
         if (!error.response) setAuthErrors(['Network Error']);
