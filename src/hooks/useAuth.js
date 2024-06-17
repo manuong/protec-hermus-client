@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import authService from '../api/auth.api.js';
 import { useNavigate } from 'react-router-dom';
+import PATH_ROUTES from '../constants/pathRoutes.js';
 
 const useAuth = () => {
   const [authErrors, setAuthErrors] = useState([]);
@@ -26,7 +27,7 @@ const useAuth = () => {
         window.localStorage.setItem('loggedUser', JSON.stringify(data.user));
         window.localStorage.setItem('token', data.token);
 
-        navigate('/home');
+        navigate(PATH_ROUTES.HOME);
       })
       .catch((error) => {
         if (!error.response) setAuthErrors(['Network Error']);
@@ -34,8 +35,14 @@ const useAuth = () => {
       });
   };
 
+  const handleLogout = () => {
+    window.localStorage.clear();
+    navigate(PATH_ROUTES.LOGIN);
+  };
+
   return {
     handleLogin,
+    handleLogout,
     authErrors,
   };
 };
