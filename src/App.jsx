@@ -6,6 +6,7 @@ import OnlyAuthorized from './routes/OnlyAuthorized';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import TaskFormPage from './pages/TaskFormPage';
+import EditTaskPage from './pages/EditTaskPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route element={<OnlyAuthorized />}>
           <Route path={PATH_ROUTES.HOME} element={<HomePage />} />
           <Route path={PATH_ROUTES.CREATE_TASK} element={<TaskFormPage />} />
+          <Route path={`${PATH_ROUTES.EDIT_TASK}/:taskId`} element={<EditTaskPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to={'login'} />} />

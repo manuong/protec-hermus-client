@@ -12,14 +12,17 @@ const Header = ({ username }) => {
   };
 
   return (
-    <header className="px-14 w-screen h-24 flex items-center justify-end">
+    <header className="px-14 w-full h-24 flex items-center justify-end">
       <button
         onClick={handleClick}
         className="text-lg mx-10 border-b-2 border-transparent hover:border-white"
       >
         cerrar sesión
       </button>
-      <span className="text-lg">{username}</span>
+      <div className="flex items-end">
+        <ion-icon size="large" name="person-circle-outline"></ion-icon>
+        <span className="text-lg ml-2">{username}</span>
+      </div>
     </header>
   );
 };

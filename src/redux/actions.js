@@ -13,3 +13,10 @@ export const addTasks = (tasks) => {
     payload: tasks,
   };
 };
+
+export const taskDetail = (id) => {
+  return {
+    type: ACTION_TYPES.TASK_DETAIL,
+    payload: id,
+  };
+};
