@@ -59,14 +59,12 @@ const EditTaskPage = () => {
           ></textarea>
 
           {typeOfUser === TYPE_OF_USERS.ADMIN && (
-            <div>
-              <select {...register('assigned')}>
-                <option value="">Asignar a un tecnico</option>
-                <option value="">tec1</option>
-                <option value="">tec2</option>
-                <option value="">tec3</option>
-              </select>
-            </div>
+            <select className="text-black" {...register('assigned')}>
+              <option value="">Asignar a un tecnico</option>
+              <option value="">tec1</option>
+              <option value="">tec2</option>
+              <option value="">tec3</option>
+            </select>
           )}
 
           {typeOfUser === TYPE_OF_USERS.TEC && (
@@ -84,20 +82,20 @@ const EditTaskPage = () => {
           )}
 
           {typeOfUser === TYPE_OF_USERS.ADMIN && task.status === 'completed' && (
-            <div>
-              <label className="text-2xl ml-6">
-                Aprovar
-                <input type="checkbox" value={'approved'} {...register('status')} className="mr-2" />
-              </label>
-            </div>
+            <label className="text-2xl ml-6">
+              Aprovar
+              <input type="checkbox" value={'approved'} {...register('status')} className="mr-2" />
+            </label>
           )}
 
-          <textarea
-            rows="10"
-            placeholder="Escribre un comentario"
-            {...register('comment')}
-            className="text-black mt-5 w-96 h-12 px-2 rounded-md"
-          ></textarea>
+          {typeOfUser === TYPE_OF_USERS.TEC && (
+            <textarea
+              rows="10"
+              placeholder="Escribre un comentario"
+              {...register('comment')}
+              className="text-black mt-5 w-96 h-12 px-2 rounded-md"
+            ></textarea>
+          )}
         </div>
 
         <button className="bg-sky-800 w-28 h-10 mt-10 duration-200 hover:rounded-xl">Enviar</button>

@@ -19,6 +19,7 @@ const TaskTableAdmin = () => {
           return (
             <TaskItemAdmin
               key={index}
+              id={task.id}
               title={task.title}
               description={task.description}
               area={task.area}

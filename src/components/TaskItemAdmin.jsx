@@ -1,4 +1,7 @@
-const TaskItemAdmin = ({ title, description, area, status, assigned, comment }) => {
+import { Link } from 'react-router-dom';
+import PATH_ROUTES from '../constants/pathRoutes';
+
+const TaskItemAdmin = ({ id, title, description, area, status, assigned, comment }) => {
   let smallTitle = null;
   let smallDescription = null;
   let smallComment = null;
@@ -23,12 +26,16 @@ const TaskItemAdmin = ({ title, description, area, status, assigned, comment }) 
       <div className="w-2/12 px-3">{status}</div>
       <div className="w-2/12 px-3">{assigned ? assigned.username : '---'}</div>
       <div className="w-6/12 px-3">{smallComment ? smallComment : comment ? comment : '---'}</div>
-      <div className="absolute right-16 top-2 text-xl bg-blue-800 p-1 w-8 h-8 rounded-lg opacity-0 group-hover:opacity-100 cursor-pointer">
-        <ion-icon name="create-outline"></ion-icon>
-      </div>
-      <div className="absolute right-5 top-2 text-xl bg-red-700 p-1 w-8 h-8 rounded-lg opacity-0 group-hover:opacity-100 cursor-pointer">
+
+      <Link to={`${PATH_ROUTES.EDIT_TASK}/${id}`}>
+        <div className="absolute right-16 top-2 text-xl bg-blue-800 p-1 w-8 h-8 rounded-lg opacity-0 group-hover:opacity-100 cursor-pointer">
+          <ion-icon name="create-outline"></ion-icon>
+        </div>
+      </Link>
+
+      <button className="absolute right-5 top-2 text-xl bg-red-700 p-1 w-8 h-8 rounded-lg opacity-0 group-hover:opacity-100 cursor-pointer">
         <ion-icon name="trash-outline"></ion-icon>
-      </div>
+      </button>
     </div>
   );
 };
