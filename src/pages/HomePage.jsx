@@ -8,6 +8,7 @@ import localStorageService from '../services/localStorageService';
 import { addTasks, userSave } from '../redux/actions';
 import TYPE_OF_USERS from '../constants/typeOfUsers';
 import TaskTableAdmin from '../components/TaskTableAdmin';
+import TaskTableTec from '../components/TaskTableTec';
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
@@ -36,7 +37,7 @@ const HomePage = () => {
       </div>
       {user.typeOfUser === TYPE_OF_USERS.AREA && <TaskTable />}
       {user.typeOfUser === TYPE_OF_USERS.ADMIN && <TaskTableAdmin />}
-      {user.typeOfUser === TYPE_OF_USERS.TEC && <TaskTableAdmin />}
+      {user.typeOfUser === TYPE_OF_USERS.TEC && <TaskTableTec />}
     </div>
   );
 };

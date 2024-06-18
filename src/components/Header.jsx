@@ -19,7 +19,10 @@ const Header = ({ username }) => {
       >
         cerrar sesión
       </button>
-      <span className="text-lg">{username}</span>
+      <div className="flex items-end">
+        <ion-icon size="large" name="person-circle-outline"></ion-icon>
+        <span className="text-lg ml-2">{username}</span>
+      </div>
     </header>
   );
 };
