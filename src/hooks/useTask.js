@@ -1,48 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import taskService from '../services/taskService';
-import { useDispatch } from 'react-redux';
-import { addTasks } from '../redux/actions';
 
 const useTask = () => {
-  const dispatch = useDispatch();
+  const [errors, setErrors] = useState([]);
 
-  const [loading, setLoading] = useState(false);
-  const [taskErrors, setTaskErrors] = useState([]);
-
-  const createTask = (payload) => {
-    setLoading(true);
-
-    taskService
-      .postTaskRequest(payload)
-      .then(({ data }) => {
-        setLoading(false);
-        window.alert(data.message);
-      })
-      .catch((error) => {
-        setLoading(false);
-        if (!error.response) setTaskErrors(['Network Error']);
-        setTaskErrors(error.response.data.error);
-      });
+  const getTasks = async (token) => {
+    try {
+      const { data } = await taskService.getTasksRequest(token);
+      return data;
+    } catch (error) {
+      if (!error.response) setErrors(['Network Error']);
+      setErrors(error.response.data.error);
+    }
   };
 
-  const saveTasks = () => {
-    setLoading(true);
-    dispatch(addTasks())
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        if (!error.response) setTaskErrors(['Network Error']);
-        setTaskErrors(error.response.data.error);
-      });
+  const createTask = async (newTask, token) => {
+    try {
+      await taskService.postTaskRequest(newTask, token);
+    } catch (error) {
+      if (!error.response) setErrors(['Network Error']);
+      setErrors(error.response.data.error);
+    }
   };
+
+  useEffect(() => {
+    // este setTimeout es para cerrar las alertas de los errores despues de un tiempo
+    if (errors.length > 0) {
+      const timer = setTimeout(() => {
+        setErrors([]);
+      }, 4000);
+      // cuando se desmonte el componente
+      // 'clearTimeout' funcion para quitar un setTimeout
+      return () => clearTimeout(timer);
+    }
+  }, [errors]);
 
   return {
+    errors,
+    getTasks,
     createTask,
-    saveTasks,
-    loading,
-    taskErrors,
   };
 };
 

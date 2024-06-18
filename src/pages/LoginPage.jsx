@@ -1,7 +1,9 @@
-import { useForm } from 'react-hook-form';
-import useAuth from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PATH_ROUTES from '../constants/pathRoutes';
+import useAuth from '../hooks/useAuth';
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import ErrorService from '../components/ErrorService';
 
 const LoginPage = () => {
   const {
@@ -10,24 +12,33 @@ const LoginPage = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const { handleLogin, authErrors, loading } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const { singin, isAuthenticated, errors: authErrors } = useAuth();
 
   const onSubmit = handleSubmit((values) => {
-    handleLogin(values);
+    setLoading(true);
+    // funcion asincrona
+    singin(values).then(() => {
+      setLoading(false);
+    });
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(PATH_ROUTES.HOME);
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <form onSubmit={onSubmit} className="flex flex-col items-center">
         <h2 className="text-4xl mb-10">Inicio de Sesión</h2>
 
-        {authErrors.map((error, i) => {
-          return (
-            <div key={i} className="bg-red-600 text-white w-96 p-2 mb-3">
-              {error}
-            </div>
-          );
-        })}
+        {authErrors.map((error, i) => (
+          <ErrorService key={i} error={error} />
+        ))}
 
         <div className="flex flex-col">
           <input

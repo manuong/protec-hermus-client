@@ -1,5 +1,9 @@
 import { useForm } from 'react-hook-form';
 import useTask from '../hooks/useTask';
+import localStorageService from '../services/localStorageService';
+import { useNavigate } from 'react-router-dom';
+import PATH_ROUTES from '../constants/pathRoutes';
+import ErrorService from '../components/ErrorService';
 
 const TaskFormPage = () => {
   const {
@@ -8,10 +12,16 @@ const TaskFormPage = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const { taskErrors, createTask } = useTask();
+  const navigate = useNavigate();
+
+  const { createTask, errors: taskErrors } = useTask();
 
   const onSubmit = handleSubmit((values) => {
-    createTask(values);
+    const token = localStorageService.getToken();
+
+    createTask(values, token).then(() => {
+      navigate(PATH_ROUTES.HOME);
+    });
   });
 
   return (
@@ -19,13 +29,9 @@ const TaskFormPage = () => {
       <form onSubmit={onSubmit} className="flex flex-col items-center">
         <h2 className="text-4xl mb-10">Crear Tarea</h2>
 
-        {taskErrors.map((error, i) => {
-          return (
-            <div key={i} className="bg-red-600 text-white w-96 p-2 mb-3">
-              {error}
-            </div>
-          );
-        })}
+        {taskErrors.map((error, i) => (
+          <ErrorService key={i} error={error} />
+        ))}
 
         <div className="flex flex-col">
           <input

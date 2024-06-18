@@ -1,72 +1,62 @@
 import { useEffect, useState } from 'react';
-import authService from '../services/authService.js';
-import { useNavigate } from 'react-router-dom';
-import PATH_ROUTES from '../constants/pathRoutes.js';
+import authService from '../services/authService';
+import localStorageService from '../services/localStorageService';
+import { useDispatch } from 'react-redux';
+import { addTasks, userSave } from '../redux/actions';
+import taskService from '../services/taskService';
 
 const useAuth = () => {
-  const [authErrors, setAuthErrors] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const singin = async (credentials) => {
+    try {
+      const { data } = await authService.loginRequest(credentials);
+
+      // se guardan los datos en local storage
+      localStorageService.setUser(data.user);
+      localStorageService.setToken(data.token);
+
+      // se guardan los datos en el estado global
+      dispatch(userSave(data.user));
+
+      // se guardan las tareas correspondientes
+      // funcion asincrona
+      const { data: tasks } = await taskService.getTasksRequest(data.token);
+      dispatch(addTasks(tasks));
+
+      // comprobamos que esta autenticado
+      setIsAuthenticated(true);
+    } catch (error) {
+      if (!error.response) setErrors(['Network Error']);
+      setErrors(error.response.data.error);
+    }
+  };
+
+  const logout = () => {
+    localStorageService.clearLocalStorage();
+    setIsAuthenticated(false);
+  };
 
   useEffect(() => {
     // este setTimeout es para cerrar las alertas de los errores despues de un tiempo
-    if (authErrors.length > 0) {
+    if (errors.length > 0) {
       const timer = setTimeout(() => {
-        setAuthErrors([]);
-      }, 6000);
+        setErrors([]);
+      }, 4000);
       // cuando se desmonte el componente
       // 'clearTimeout' funcion para quitar un setTimeout
       return () => clearTimeout(timer);
     }
-  }, [authErrors]);
-
-  const handleLogin = (payload) => {
-    setLoading(true);
-    authService
-      .loginRequest(payload)
-      .then(({ data }) => {
-        window.localStorage.setItem('loggedUser', JSON.stringify(data.user));
-        window.localStorage.setItem('token', data.token);
-
-        setLoading(false);
-        navigate(PATH_ROUTES.HOME);
-      })
-      .catch((error) => {
-        setLoading(false);
-        if (!error.response) setAuthErrors(['Network Error']);
-        setAuthErrors(error.response.data.error);
-      });
-  };
-
-  const handleLogout = () => {
-    window.localStorage.clear();
-    navigate(PATH_ROUTES.LOGIN);
-    setLoading(false);
-  };
-
-  const handleSingup = (payload) => {
-    setLoading(true);
-    authService
-      .singupRequest(payload)
-      .then(({ data }) => {
-        setLoading(false);
-        window.alert(data.message);
-        navigate(PATH_ROUTES.LOGIN);
-      })
-      .catch((error) => {
-        setLoading(false);
-        if (!error.response) setAuthErrors(['Network Error']);
-        setAuthErrors(error.response.data.error);
-      });
-  };
+  }, [errors]);
 
   return {
-    handleLogin,
-    handleLogout,
-    handleSingup,
-    authErrors,
-    loading,
+    errors,
+    isAuthenticated,
+    singin,
+    logout,
   };
 };
 

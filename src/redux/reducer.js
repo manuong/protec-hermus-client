@@ -2,6 +2,7 @@ import ACTION_TYPES from './actionTypes';
 
 const initialState = {
   user: {},
+  tasks: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -10,6 +11,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         user: payload,
+      };
+
+    case ACTION_TYPES.ADD_TASKS:
+      return {
+        ...state,
+        tasks: payload,
       };
 
     default:

@@ -1,19 +1,20 @@
-import { useDispatch, useSelector } from 'react-redux';
 import TaskTable from '../components/TaskTable';
 import Header from '../components/Header';
-import { useEffect } from 'react';
-import { userSave } from '../redux/actions';
-import localStorageService from '../services/localStorageService';
 import NavButton from '../components/NavButton';
 import PATH_ROUTES from '../constants/pathRoutes';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import localStorageService from '../services/localStorageService';
+import { userSave } from '../redux/actions';
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
 
+  // volver a cargar los datos si se refresca la pagina
   useEffect(() => {
-    dispatch(userSave(localStorageService.getUser()));
+    const user = localStorageService.getUser();
+    dispatch(userSave(user));
   }, [dispatch]);
 
   return (

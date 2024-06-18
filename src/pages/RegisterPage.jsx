@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import useAuth from '../hooks/useAuth';
 
 const RegisterPage = () => {
   const {
@@ -8,24 +7,20 @@ const RegisterPage = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const { handleSingup, authErrors } = useAuth();
-
-  const onSubmit = handleSubmit((values) => {
-    handleSingup(values);
-  });
+  const onSubmit = handleSubmit(() => {});
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <form onSubmit={onSubmit} className="flex flex-col items-center">
         <h2 className="text-4xl mb-10">Regístrate</h2>
 
-        {authErrors.map((error, i) => {
+        {/* {authErrors.map((error, i) => {
           return (
             <div key={i} className="bg-red-600 text-white w-96 p-2 mb-3">
               {error}
             </div>
           );
-        })}
+        })} */}
 
         <div className="flex flex-col">
           <input

@@ -1,12 +1,13 @@
 import ENDPOINTS from '../constants/endpoints';
+import axiosConfigHeaders from '../helpers/axiosConfigHeaders';
 import axios from './axios.config';
 
-const postTaskRequest = (payload) => {
-  return axios.post(ENDPOINTS.TASK, payload);
+const postTaskRequest = (payload, token) => {
+  return axios.post(ENDPOINTS.TASK, payload, axiosConfigHeaders(token));
 };
 
-const getTasksRequest = () => {
-  return axios.get(ENDPOINTS.TASK);
+const getTasksRequest = (token) => {
+  return axios.get(ENDPOINTS.TASK, axiosConfigHeaders(token));
 };
 
 export default { postTaskRequest, getTasksRequest };
