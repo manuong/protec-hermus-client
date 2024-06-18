@@ -7,8 +7,34 @@ import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import TaskFormPage from './pages/TaskFormPage';
 import EditTaskPage from './pages/EditTaskPage';
+import { useEffect } from 'react';
+import localStorageService from './services/localStorageService';
+import { useDispatch } from 'react-redux';
+import { addTasks, userSave } from './redux/actions';
+import taskService from './services/taskService';
 
 function App() {
+  const dispatch = useDispatch();
+
+  // volver a cargar los datos si se refresca la pagina
+  useEffect(() => {
+    const token = localStorageService.getToken();
+
+    if (token) {
+      const user = localStorageService.getUser();
+      dispatch(userSave(user));
+
+      taskService
+        .getTasksRequest(token)
+        .then(({ data }) => {
+          dispatch(addTasks(data));
+        })
+        .catch(() => {
+          window.alert('Error al cargar las Tareas');
+        });
+    }
+  }, [dispatch]);
+
   return (
     <>
       <Routes>

@@ -20,9 +20,13 @@ const LoginPage = () => {
   const onSubmit = handleSubmit((values) => {
     setLoading(true);
     // funcion asincrona
-    singin(values).then(() => {
-      setLoading(false);
-    });
+    singin(values)
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   });
 
   useEffect(() => {

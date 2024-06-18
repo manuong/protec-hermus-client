@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { taskDetail } from '../redux/actions';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,8 +8,11 @@ import useTask from '../hooks/useTask';
 import localStorageService from '../services/localStorageService';
 import PATH_ROUTES from '../constants/pathRoutes';
 import ErrorService from '../components/ErrorService';
+import userService from '../services/userService';
 
 const EditTaskPage = () => {
+  const [usersTec, setUsersTec] = useState([]);
+
   const task = useSelector((state) => state.taskDetail);
   const { typeOfUser } = useSelector((state) => state.user);
 
@@ -26,6 +29,15 @@ const EditTaskPage = () => {
 
     setValue('title', task.title);
     setValue('description', task.description);
+
+    userService
+      .getUsersTec(localStorageService.getToken())
+      .then(({ data }) => {
+        setUsersTec(data);
+      })
+      .catch(() => {
+        console.error('Error al cargar datos');
+      });
   }, [dispatch, taskId, setValue, task]);
 
   const onSubmit = handleSubmit((values) => {
@@ -61,9 +73,11 @@ const EditTaskPage = () => {
           {typeOfUser === TYPE_OF_USERS.ADMIN && (
             <select className="text-black" {...register('assigned')}>
               <option value="">Asignar a un tecnico</option>
-              <option value="">tec1</option>
-              <option value="">tec2</option>
-              <option value="">tec3</option>
+              {usersTec.map(({ id, username }, index) => (
+                <option key={index} value={id}>
+                  {username}
+                </option>
+              ))}
             </select>
           )}
 
