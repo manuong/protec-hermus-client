@@ -10,8 +10,7 @@ import EditTaskPage from './pages/EditTaskPage';
 import { useEffect } from 'react';
 import localStorageService from './services/localStorageService';
 import { useDispatch } from 'react-redux';
-import { addTasks, userSave } from './redux/actions';
-import taskService from './services/taskService';
+import { saveUsers } from './redux/actions';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,16 +21,7 @@ function App() {
 
     if (token) {
       const user = localStorageService.getUser();
-      dispatch(userSave(user));
-
-      taskService
-        .getTasksRequest(token)
-        .then(({ data }) => {
-          dispatch(addTasks(data));
-        })
-        .catch(() => {
-          window.alert('Error al cargar las Tareas');
-        });
+      dispatch(saveUsers(user));
     }
   }, [dispatch]);
 

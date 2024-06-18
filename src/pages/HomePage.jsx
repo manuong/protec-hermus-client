@@ -2,13 +2,34 @@ import TaskTable from '../components/TaskTable';
 import Header from '../components/Header';
 import NavButton from '../components/NavButton';
 import PATH_ROUTES from '../constants/pathRoutes';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import TYPE_OF_USERS from '../constants/typeOfUsers';
 import TaskTableAdmin from '../components/TaskTableAdmin';
 import TaskTableTec from '../components/TaskTableTec';
+import { useEffect } from 'react';
+import taskService from '../services/taskService';
+import localStorageService from '../services/localStorageService';
+import { addTasks } from '../redux/actions';
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorageService.getToken();
+
+    if (token) {
+      taskService
+        .getTasksRequest(token)
+        .then(({ data }) => {
+          dispatch(addTasks(data));
+        })
+        .catch(() => {
+          window.alert('Error al cargar las Tareas');
+        });
+    }
+  }, [dispatch]);
 
   return (
     <div>

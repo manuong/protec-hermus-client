@@ -1,5 +1,4 @@
-const USER_SAVE = 'USER_SAVE';
+const SAVE_USERS = 'SAVE_USERS';
 const ADD_TASKS = 'ADD_TASKS';
-const TASK_DETAIL = 'TASK_DETAIL';
 
-export default { USER_SAVE, ADD_TASKS, TASK_DETAIL };
+export default { SAVE_USERS, ADD_TASKS };

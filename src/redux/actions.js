@@ -1,9 +1,9 @@
 import ACTION_TYPES from './actionTypes';
 
-export const userSave = (user) => {
+export const saveUsers = (users) => {
   return {
-    type: ACTION_TYPES.USER_SAVE,
-    payload: user,
+    type: ACTION_TYPES.SAVE_USERS,
+    payload: users,
   };
 };
 
@@ -11,12 +11,5 @@ export const addTasks = (tasks) => {
   return {
     type: ACTION_TYPES.ADD_TASKS,
     payload: tasks,
-  };
-};
-
-export const taskDetail = (id) => {
-  return {
-    type: ACTION_TYPES.TASK_DETAIL,
-    payload: id,
   };
 };

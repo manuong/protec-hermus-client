@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { taskDetail } from '../redux/actions';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import TYPE_OF_USERS from '../constants/typeOfUsers';
@@ -9,36 +8,37 @@ import localStorageService from '../services/localStorageService';
 import PATH_ROUTES from '../constants/pathRoutes';
 import ErrorService from '../components/ErrorService';
 import userService from '../services/userService';
+import taskService from '../services/taskService';
 
 const EditTaskPage = () => {
-  const [usersTec, setUsersTec] = useState([]);
-
-  const task = useSelector((state) => state.taskDetail);
   const { typeOfUser } = useSelector((state) => state.user);
+  const [usersTec, setUsersTec] = useState([]);
+  const [task, setTask] = useState({});
 
   const { register, handleSubmit, setValue } = useForm();
 
-  const dispatch = useDispatch();
   const { taskId } = useParams();
   const navigate = useNavigate();
 
   const { editTask, errors: taskErrors } = useTask();
 
   useEffect(() => {
-    dispatch(taskDetail(taskId));
+    const fetchData = async () => {
+      const token = localStorageService.getToken();
 
+      const { data: dataUserTec } = await userService.getUsersTec(token);
+      const { data: taskDetail } = await taskService.getTasksDetailRequest(taskId, token);
+
+      setUsersTec(dataUserTec);
+      setTask(taskDetail);
+    };
+    fetchData();
+  }, [setValue, taskId]);
+
+  useEffect(() => {
     setValue('title', task.title);
     setValue('description', task.description);
-
-    userService
-      .getUsersTec(localStorageService.getToken())
-      .then(({ data }) => {
-        setUsersTec(data);
-      })
-      .catch(() => {
-        console.error('Error al cargar datos');
-      });
-  }, [dispatch, taskId, setValue, task]);
+  }, [setValue, task]);
 
   const onSubmit = handleSubmit((values) => {
     editTask(taskId, values, localStorageService.getToken()).then(() => {

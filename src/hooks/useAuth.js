@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import authService from '../services/authService';
 import localStorageService from '../services/localStorageService';
 import { useDispatch } from 'react-redux';
-import { addTasks, userSave } from '../redux/actions';
+import { addTasks, saveUsers } from '../redux/actions';
 import taskService from '../services/taskService';
 
 const useAuth = () => {
@@ -18,7 +18,7 @@ const useAuth = () => {
       // se guardan los datos en local storage y en el estado global
       localStorageService.setUser(data.user);
       localStorageService.setToken(data.token);
-      dispatch(userSave(data.user));
+      dispatch(saveUsers(data.user));
 
       // se guardan las tareas correspondientes
       const { data: tasks } = await taskService.getTasksRequest(data.token);
