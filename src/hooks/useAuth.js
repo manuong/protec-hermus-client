@@ -15,20 +15,28 @@ const useAuth = () => {
     try {
       const { data } = await authService.loginRequest(credentials);
 
-      // se guardan los datos en local storage
+      // se guardan los datos en local storage y en el estado global
       localStorageService.setUser(data.user);
       localStorageService.setToken(data.token);
-
-      // se guardan los datos en el estado global
       dispatch(userSave(data.user));
 
       // se guardan las tareas correspondientes
-      // funcion asincrona
       const { data: tasks } = await taskService.getTasksRequest(data.token);
+      localStorageService.setTasks(tasks);
       dispatch(addTasks(tasks));
 
       // comprobamos que esta autenticado
       setIsAuthenticated(true);
+    } catch (error) {
+      if (!error.response) setErrors(['Network Error']);
+      setErrors(error.response.data.error);
+    }
+  };
+
+  const singup = async (newUser) => {
+    try {
+      const { data } = await authService.singupRequest(newUser);
+      return data.message;
     } catch (error) {
       if (!error.response) setErrors(['Network Error']);
       setErrors(error.response.data.error);
@@ -56,6 +64,7 @@ const useAuth = () => {
     errors,
     isAuthenticated,
     singin,
+    singup,
     logout,
   };
 };

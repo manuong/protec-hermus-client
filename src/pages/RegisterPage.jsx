@@ -1,4 +1,8 @@
 import { useForm } from 'react-hook-form';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import PATH_ROUTES from '../constants/pathRoutes';
+import ErrorService from '../components/ErrorService';
 
 const RegisterPage = () => {
   const {
@@ -7,20 +11,25 @@ const RegisterPage = () => {
     formState: { errors: formErrors },
   } = useForm();
 
-  const onSubmit = handleSubmit(() => {});
+  const navigate = useNavigate();
+
+  const { singup, errors: authErrors } = useAuth();
+
+  const onSubmit = handleSubmit((values) => {
+    singup(values).then((res) => {
+      window.alert(res);
+      navigate(PATH_ROUTES.LOGIN);
+    });
+  });
 
   return (
     <div className="h-screen flex flex-col items-center justify-center">
       <form onSubmit={onSubmit} className="flex flex-col items-center">
         <h2 className="text-4xl mb-10">Regístrate</h2>
 
-        {/* {authErrors.map((error, i) => {
-          return (
-            <div key={i} className="bg-red-600 text-white w-96 p-2 mb-3">
-              {error}
-            </div>
-          );
-        })} */}
+        {authErrors.map((error, i) => (
+          <ErrorService key={i} error={error} />
+        ))}
 
         <div className="flex flex-col">
           <input

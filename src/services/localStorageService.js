@@ -2,6 +2,7 @@ import parseJsonToObject from '../helpers/parseJsonToObject';
 
 const TOKEN_KEY = 'token';
 const USER_KEY = 'loggedUser';
+const TASK_KEY = 'tasks';
 
 const getUser = () => {
   const userJSON = window.localStorage.getItem(USER_KEY);
@@ -23,8 +24,25 @@ const setToken = (token) => {
   return window.localStorage.setItem(TOKEN_KEY, token);
 };
 
+const getTasks = () => {
+  const tasksJSON = window.localStorage.getItem(TASK_KEY);
+  return parseJsonToObject(tasksJSON);
+};
+
+const setTasks = (tasks) => {
+  return window.localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+};
+
 const clearLocalStorage = () => {
   return window.localStorage.clear();
 };
 
-export default { getUser, setUser, getToken, setToken, clearLocalStorage };
+export default {
+  getUser,
+  setUser,
+  getToken,
+  setToken,
+  getTasks,
+  setTasks,
+  clearLocalStorage,
+};

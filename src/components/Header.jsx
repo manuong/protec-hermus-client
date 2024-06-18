@@ -12,7 +12,7 @@ const Header = ({ username }) => {
   };
 
   return (
-    <header className="px-14 w-screen h-24 flex items-center justify-end">
+    <header className="px-14 w-full h-24 flex items-center justify-end">
       <button
         onClick={handleClick}
         className="text-lg mx-10 border-b-2 border-transparent hover:border-white"
