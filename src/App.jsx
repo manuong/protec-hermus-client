@@ -1,21 +1,34 @@
+// componentes
 import { Navigate, Route, Routes } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import OnlyUnauthorized from './routes/OnlyUnauthorized';
+
+// servicios
+import localStorageService from './services/localStorageService';
+
+// actions
+import { saveUsers } from './redux/actions';
+
+// constantes
 import PATH_ROUTES from './constants/pathRoutes';
+
+//hooks
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
+// routes
 import OnlyAuthorized from './routes/OnlyAuthorized';
-import RegisterPage from './pages/RegisterPage';
-import HomePage from './pages/HomePage';
+import OnlyUnauthorized from './routes/OnlyUnauthorized';
+
+// páginas
 import TaskFormPage from './pages/TaskFormPage';
 import EditTaskPage from './pages/EditTaskPage';
-import { useEffect } from 'react';
-import localStorageService from './services/localStorageService';
-import { useDispatch } from 'react-redux';
-import { saveUsers } from './redux/actions';
+import RegisterPage from './pages/RegisterPage';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   const dispatch = useDispatch();
 
-  // volver a cargar los datos si se refresca la pagina
+  // volver a cargar los datos si se refresca la página
   useEffect(() => {
     const token = localStorageService.getToken();
 

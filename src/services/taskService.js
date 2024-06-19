@@ -1,6 +1,11 @@
-import ENDPOINTS from '../constants/endpoints';
-import axiosConfigHeaders from '../helpers/axiosConfigHeaders';
+// configuraciones
 import axios from './axios.config';
+
+// helpers
+import axiosConfigHeaders from '../helpers/axiosConfigHeaders';
+
+// constantes
+import ENDPOINTS from '../constants/endpoints';
 
 const getTasksRequest = (token) => {
   return axios.get(ENDPOINTS.TASK, axiosConfigHeaders(token));

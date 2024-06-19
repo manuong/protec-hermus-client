@@ -1,3 +1,4 @@
+// helpers
 import parseJsonToObject from '../helpers/parseJsonToObject';
 
 const TOKEN_KEY = 'token';

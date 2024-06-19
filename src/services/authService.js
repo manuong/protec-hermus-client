@@ -1,5 +1,8 @@
-import ENDPOINTS from '../constants/endpoints';
+// configuraciones
 import axios from './axios.config';
+
+// constantes
+import ENDPOINTS from '../constants/endpoints';
 
 const loginRequest = (payload) => {
   return axios.post(ENDPOINTS.LOGIN, payload);

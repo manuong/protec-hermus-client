@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* estilos base */
 body {
   /* background-color: #02394a; */
   background-color: #001b2e;
