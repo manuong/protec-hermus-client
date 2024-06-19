@@ -8,8 +8,8 @@ const TaskItemTec = ({ id, title, description, area, status }) => {
   if (title.length > 36) {
     smallTitle = title.split('').slice(0, 33).concat(' ...').join('');
   }
-  if (description.length > 79) {
-    smallDescription = description.split('').slice(0, 76).concat(' ...').join('');
+  if (description.length > 53) {
+    smallDescription = description.split('').slice(0, 50).concat(' ...').join('');
   }
 
   return (
@@ -19,11 +19,13 @@ const TaskItemTec = ({ id, title, description, area, status }) => {
       <div className="w-2/12 px-3">{area ? area.username : '---'}</div>
       <div className="w-2/12 px-3">{status}</div>
 
-      <Link to={`${PATH_ROUTES.EDIT_TASK}/${id}`}>
-        <div className="absolute right-24 top-2 text-xl bg-blue-800 p-1 w-8 h-8 rounded-lg opacity-0 group-hover:opacity-100 cursor-pointer">
-          <ion-icon name="create-outline"></ion-icon>
-        </div>
-      </Link>
+      {status !== 'approved' && (
+        <Link to={`${PATH_ROUTES.EDIT_TASK}/${id}`}>
+          <div className="absolute right-24 top-2 text-xl bg-blue-800 p-1 w-8 h-8 rounded-lg opacity-0 group-hover:opacity-100 cursor-pointer">
+            <ion-icon name="create-outline"></ion-icon>
+          </div>
+        </Link>
+      )}
     </div>
   );
 };

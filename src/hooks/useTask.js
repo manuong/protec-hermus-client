@@ -32,6 +32,15 @@ const useTask = () => {
     }
   };
 
+  const deleteTask = async (id, token) => {
+    try {
+      await taskService.deleteTaskRequest(id, token);
+    } catch (error) {
+      if (!error.response) setErrors(['Network Error']);
+      setErrors(error.response.data.error);
+    }
+  };
+
   useEffect(() => {
     // este setTimeout es para cerrar las alertas de los errores despues de un tiempo
     if (errors.length > 0) {
@@ -49,6 +58,7 @@ const useTask = () => {
     getTasks,
     createTask,
     editTask,
+    deleteTask,
   };
 };
 

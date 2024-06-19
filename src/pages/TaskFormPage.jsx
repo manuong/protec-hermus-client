@@ -47,7 +47,7 @@ const TaskFormPage = () => {
             rows="10"
             placeholder="Descripción"
             {...register('description', { required: true })}
-            className="text-black mt-5 w-96 h-12 px-2 rounded-md"
+            className="text-black mt-6 w-96 h-32 min-h-32 p-2 rounded-md"
           ></textarea>
 
           <span className="text-red-600 h-6 mt-2">

@@ -18,4 +18,14 @@ const editTaskRequest = (id, newTask, token) => {
   return axios.put(`${ENDPOINTS.TASK}/${id}`, newTask, axiosConfigHeaders(token));
 };
 
-export default { getTasksRequest, getTasksDetailRequest, postTaskRequest, editTaskRequest };
+const deleteTaskRequest = (id, token) => {
+  return axios.delete(`${ENDPOINTS.TASK}/${id}`, axiosConfigHeaders(token));
+};
+
+export default {
+  getTasksRequest,
+  getTasksDetailRequest,
+  postTaskRequest,
+  editTaskRequest,
+  deleteTaskRequest,
+};

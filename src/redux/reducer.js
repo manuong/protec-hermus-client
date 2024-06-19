@@ -21,6 +21,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
     }
 
+    case ACTION_TYPES.DELETE_TASK: {
+      return {
+        ...state,
+        tasks: state.tasks.filter((task) => task.id !== payload),
+      };
+    }
+
     default:
       return {
         ...state,
