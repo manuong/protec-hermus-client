@@ -1,5 +1,8 @@
-import { useNavigate } from 'react-router-dom';
+// hooks
 import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+
+// constantes
 import PATH_ROUTES from '../constants/pathRoutes';
 
 const Header = ({ username }) => {

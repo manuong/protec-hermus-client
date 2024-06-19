@@ -1,9 +1,18 @@
+// librerías
 import { Link } from 'react-router-dom';
-import PATH_ROUTES from '../constants/pathRoutes';
-import useTask from '../hooks/useTask';
-import localStorageService from '../services/localStorageService';
-import { useDispatch } from 'react-redux';
+
+// redux
 import { deleteTask } from '../redux/actions';
+
+// servicios
+import localStorageService from '../services/localStorageService';
+
+// hooks
+import { useDispatch } from 'react-redux';
+import useTask from '../hooks/useTask';
+
+// constantes
+import PATH_ROUTES from '../constants/pathRoutes';
 
 const TaskItemAdmin = ({ id, title, description, area, status, assigned, comment }) => {
   const { deleteTask: deleteTaskDB } = useTask();
@@ -36,11 +45,11 @@ const TaskItemAdmin = ({ id, title, description, area, status, assigned, comment
 
   return (
     <div className="w-full h-12 flex items-center relative group hover:bg-sky-950">
-      <div className="w-4/12 px-3">{smallTitle ? smallTitle : title}</div>
-      <div className="w-6/12 px-3">{smallDescription ? smallDescription : description}</div>
-      <div className="w-2/12 px-3">{area ? area.username : '---'}</div>
-      <div className="w-2/12 px-3">{status}</div>
-      <div className="w-2/12 px-3">{assigned ? assigned.username : '---'}</div>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-4/12 px-3 cursor-pointer">{smallTitle ? smallTitle : title}</Link>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-6/12 px-3 cursor-pointer">{smallDescription ? smallDescription : description}</Link>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-2/12 px-3 cursor-pointer">{area ? area.username : '---'}</Link>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-2/12 px-3 cursor-pointer">{status}</Link>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-2/12 px-3 cursor-pointer">{assigned ? assigned.username : '---'}</Link>
       <div className="w-6/12 px-3">{smallComment ? smallComment : comment ? comment : '---'}</div>
 
       {status !== 'approved' && (

@@ -1,5 +1,8 @@
-import { useSelector } from 'react-redux';
+// componentes
 import TaskItem from './TaskItem';
+
+// hooks
+import { useSelector } from 'react-redux';
 
 const TaskTable = () => {
   const tasks = useSelector((state) => state.tasks);

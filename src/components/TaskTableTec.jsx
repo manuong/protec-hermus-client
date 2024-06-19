@@ -1,5 +1,8 @@
-import { useSelector } from 'react-redux';
+// componentes
 import TaskItemTec from './TaskItemTec';
+
+//hooks
+import { useSelector } from 'react-redux';
 
 const TaskTableTec = () => {
   const tasks = useSelector((state) => state.tasks);

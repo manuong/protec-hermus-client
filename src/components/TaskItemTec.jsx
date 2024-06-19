@@ -1,4 +1,7 @@
+// librerías
 import { Link } from 'react-router-dom';
+
+// constantes
 import PATH_ROUTES from '../constants/pathRoutes';
 
 const TaskItemTec = ({ id, title, description, area, status }) => {
@@ -15,9 +18,9 @@ const TaskItemTec = ({ id, title, description, area, status }) => {
 
   return (
     <div className="w-full h-12 flex items-center relative group hover:bg-sky-950">
-      <div className="w-3/12 px-3">{smallTitle ? smallTitle : title}</div>
-      <div className="w-4/12 px-3">{smallDescription ? smallDescription : description}</div>
-      <div className="w-2/12 px-3">{area ? area.username : '---'}</div>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-3/12 px-3 cursor-pointer">{smallTitle ? smallTitle : title}</Link>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-4/12 px-3 cursor-pointer">{smallDescription ? smallDescription : description}</Link>
+      <Link to={`${PATH_ROUTES.TASK_DETAIL}/${id}`} className="w-2/12 px-3 cursor-pointer">{area ? area.username : '---'}</Link>
       <div className="w-2/12 px-3">{status}</div>
 
       {status !== 'approved' && (
