@@ -19,11 +19,12 @@ import OnlyAuthorized from './routes/OnlyAuthorized';
 import OnlyUnauthorized from './routes/OnlyUnauthorized';
 
 // páginas
-import TaskFormPage from './pages/TaskFormPage';
 import EditTaskPage from './pages/EditTaskPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import TaskFormPage from './pages/TaskFormPage';
+import TaskDetail from './pages/TaskDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function App() {
           <Route path={PATH_ROUTES.HOME} element={<HomePage />} />
           <Route path={PATH_ROUTES.CREATE_TASK} element={<TaskFormPage />} />
           <Route path={`${PATH_ROUTES.EDIT_TASK}/:taskId`} element={<EditTaskPage />} />
+          <Route path={`${PATH_ROUTES.TASK_DETAIL}/:taskId`} element={<TaskDetail />} />
         </Route>
 
         <Route path="*" element={<Navigate to={'login'} />} />

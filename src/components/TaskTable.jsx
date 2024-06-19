@@ -16,6 +16,7 @@ const TaskTable = () => {
           return (
             <TaskItem
               key={index}
+              id={task.id}
               title={task.title}
               description={task.description}
               status={task.status}
