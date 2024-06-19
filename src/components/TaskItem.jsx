@@ -1,4 +1,5 @@
 const TaskItem = ({ title, description, status }) => {
+  // Lógica para implementar un recorte si los títulos y las descripciones son muy largos
   let smallTitle = null;
   let smallDescription = null;
 

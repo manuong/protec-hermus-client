@@ -1,3 +1,4 @@
+// Validación de token para condicionales
 const validateToken = () => {
   const token = window.localStorage.getItem('token');
 

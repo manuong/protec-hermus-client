@@ -1,21 +1,30 @@
-import TaskTable from '../components/TaskTable';
+// componentes
 import Header from '../components/Header';
 import NavButton from '../components/NavButton';
-import PATH_ROUTES from '../constants/pathRoutes';
-import { useDispatch, useSelector } from 'react-redux';
-import TYPE_OF_USERS from '../constants/typeOfUsers';
+import TaskTable from '../components/TaskTable';
 import TaskTableAdmin from '../components/TaskTableAdmin';
 import TaskTableTec from '../components/TaskTableTec';
+
+// hooks
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import taskService from '../services/taskService';
-import localStorageService from '../services/localStorageService';
+
+// redux
 import { addTasks } from '../redux/actions';
+
+// servicios
+import localStorageService from '../services/localStorageService';
+import taskService from '../services/taskService';
+
+// constantes
+import PATH_ROUTES from '../constants/pathRoutes';
+import TYPE_OF_USERS from '../constants/typeOfUsers';
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
-
   const dispatch = useDispatch();
 
+  // actualizar las tareas cada vez que se vuelve a la página /home
   useEffect(() => {
     const token = localStorageService.getToken();
 

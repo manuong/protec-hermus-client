@@ -1,25 +1,31 @@
+// librerías
 import { Link, useNavigate } from 'react-router-dom';
-import PATH_ROUTES from '../constants/pathRoutes';
-import useAuth from '../hooks/useAuth';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+
+// componentes
 import ErrorService from '../components/ErrorService';
 
+// hooks
+import useAuth from '../hooks/useAuth';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+// constantes
+import PATH_ROUTES from '../constants/pathRoutes';
+
 const LoginPage = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const { singin, isAuthenticated, errors: authErrors } = useAuth(); // gestor de servicios de la API para autenticar usuario
+
   const {
     register,
     handleSubmit,
     formState: { errors: formErrors },
   } = useForm();
 
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const { singin, isAuthenticated, errors: authErrors } = useAuth();
-
   const onSubmit = handleSubmit((values) => {
     setLoading(true);
-    // funcion asincrona
     singin(values)
       .then(() => {
         setLoading(false);
@@ -30,6 +36,7 @@ const LoginPage = () => {
   });
 
   useEffect(() => {
+    // redireccionar a ruta /home
     if (isAuthenticated) {
       navigate(PATH_ROUTES.HOME);
     }

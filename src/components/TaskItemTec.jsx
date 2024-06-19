@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import PATH_ROUTES from '../constants/pathRoutes';
 
 const TaskItemTec = ({ id, title, description, area, status }) => {
+  // Lógica para implementar un recorte si los títulos y las descripciones son muy largos
   let smallTitle = null;
   let smallDescription = null;
 

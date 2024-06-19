@@ -1,5 +1,6 @@
 import ACTION_TYPES from './actionTypes';
 
+// estado inicial definido
 const initialState = {
   user: {},
   tasks: [],

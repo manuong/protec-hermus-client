@@ -9,6 +9,7 @@ const TaskItemAdmin = ({ id, title, description, area, status, assigned, comment
   const { deleteTask: deleteTaskDB } = useTask();
   const dispatch = useDispatch();
 
+  // Lógica para implementar un recorte si los títulos y las descripciones son muy largos
   let smallTitle = null;
   let smallDescription = null;
   let smallComment = null;
@@ -25,6 +26,7 @@ const TaskItemAdmin = ({ id, title, description, area, status, assigned, comment
     }
   }
 
+  // eliminar tarea
   const handleClick = () => {
     const token = localStorageService.getToken();
 

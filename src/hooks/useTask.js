@@ -42,14 +42,13 @@ const useTask = () => {
   };
 
   useEffect(() => {
-    // este setTimeout es para cerrar las alertas de los errores despues de un tiempo
+    // cerrar las alertas de los errores después de un tiempo
     if (errors.length > 0) {
       const timer = setTimeout(() => {
         setErrors([]);
       }, 4000);
-      // cuando se desmonte el componente
-      // 'clearTimeout' funcion para quitar un setTimeout
-      return () => clearTimeout(timer);
+
+      return () => clearTimeout(timer); // limpiar setTimeout
     }
   }, [errors]);
 

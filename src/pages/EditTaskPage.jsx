@@ -1,19 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+// librerias
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import TYPE_OF_USERS from '../constants/typeOfUsers';
-import useTask from '../hooks/useTask';
-import localStorageService from '../services/localStorageService';
-import PATH_ROUTES from '../constants/pathRoutes';
+
+// componentes
 import ErrorService from '../components/ErrorService';
-import userService from '../services/userService';
+
+// hooks
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import useTask from '../hooks/useTask';
+
+// servicios
+import localStorageService from '../services/localStorageService';
 import taskService from '../services/taskService';
+import userService from '../services/userService';
+
+// constantes
+import PATH_ROUTES from '../constants/pathRoutes';
+import TYPE_OF_USERS from '../constants/typeOfUsers';
 
 const EditTaskPage = () => {
   const { typeOfUser } = useSelector((state) => state.user);
   const [usersTec, setUsersTec] = useState([]);
   const [task, setTask] = useState({});
+
+  const { taskId } = useParams();
+  const navigate = useNavigate();
+
+  const { editTask, errors: taskErrors } = useTask();
 
   const {
     register,
@@ -22,15 +36,12 @@ const EditTaskPage = () => {
     setValue,
   } = useForm();
 
-  const { taskId } = useParams();
-  const navigate = useNavigate();
-
-  const { editTask, errors: taskErrors } = useTask();
-
+  // cargar datos en inputs
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorageService.getToken();
 
+      // cargar usuarios técnicos para administrados
       if (typeOfUser === TYPE_OF_USERS.ADMIN) {
         const { data: dataUserTec } = await userService.getUsersTec(token);
         setUsersTec(dataUserTec);
@@ -42,6 +53,7 @@ const EditTaskPage = () => {
     fetchData();
   }, [setValue, taskId, typeOfUser]);
 
+  // establecer valores en inputs correspondientes.
   useEffect(() => {
     setValue('title', task.title);
     setValue('description', task.description);
@@ -49,6 +61,7 @@ const EditTaskPage = () => {
     setValue('status', task.status);
   }, [setValue, task]);
 
+  // enviar datos
   const onSubmit = handleSubmit((values) => {
     editTask(taskId, values, localStorageService.getToken()).then(() => {
       navigate(PATH_ROUTES.HOME);
@@ -87,7 +100,7 @@ const EditTaskPage = () => {
                 className="text-black mt-10 w-96 h-12 rounded-md"
                 {...register('assigned', { required: true })}
               >
-                <option value="">Asignar a un tecnico: </option>
+                <option value="">Asignar a un técnico: </option>
                 {usersTec.map(({ id, username }, index) => (
                   <option key={index} value={id}>
                     {username}
@@ -129,7 +142,7 @@ const EditTaskPage = () => {
 
           {typeOfUser === TYPE_OF_USERS.ADMIN && task.status === 'completed' && (
             <label className="text-2xl ml-6">
-              ¿Aprovar?
+              ¿Aprobar?
               <input type="radio" value="approved" {...register('status')} className="ml-3 size-5" />
             </label>
           )}

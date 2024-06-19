@@ -6,6 +6,7 @@ const Header = ({ username }) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
+  // cerrar sesión de usuario
   const handleClick = () => {
     logout();
     navigate(PATH_ROUTES.LOGIN);

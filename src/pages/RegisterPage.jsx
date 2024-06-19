@@ -1,23 +1,28 @@
-import { useForm } from 'react-hook-form';
+// hooks
 import useAuth from '../hooks/useAuth';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import PATH_ROUTES from '../constants/pathRoutes';
+
+//servicios
 import ErrorService from '../components/ErrorService';
 
+// constantes
+import PATH_ROUTES from '../constants/pathRoutes';
+
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const { singup, errors: authErrors } = useAuth(); // gestor de servicios de la API para autenticar usuario
+
   const {
     register,
     handleSubmit,
     formState: { errors: formErrors },
   } = useForm();
 
-  const navigate = useNavigate();
-
-  const { singup, errors: authErrors } = useAuth();
-
+  // enviar información
   const onSubmit = handleSubmit((values) => {
     singup(values).then((res) => {
-      window.alert(res);
+      window.alert(res); // ensaje de usuario registrado
       navigate(PATH_ROUTES.LOGIN);
     });
   });
